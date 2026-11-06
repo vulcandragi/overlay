@@ -1,0 +1,11 @@
+[package]
+name = "chat"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+yew = { version = "0.23.0", features = ["csr"] }
+proto = { path = "../proto" }
+tonic-web-wasm-client = { version = "0.9.2" }
+tonic = { version = "0.14.9", default-features = false, features = ["codegen"] }
+wasm-bindgen-futures = { version = "0.4.80" }

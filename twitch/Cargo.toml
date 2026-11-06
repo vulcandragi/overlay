@@ -1,0 +1,17 @@
+[package]
+name = "twitch"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+tonic = { version = "0.14.9" }
+prost = { version = "0.14.4" }
+tonic-prost = { version = "0.14.9" }
+tokio = { version = "1.54.1", features = ["macros", "rt-multi-thread"] }
+proto = { path = "../proto" }
+figment = { version = "0.10.19", features = ["env", "toml"] }
+serde = { version = "1.0.229", features = ["derive"] }
+anyhow = { version = "1.0.104" }
+twitch-irc = { version = "6.1.3", default-features = false, features = ["transport-tcp-rustls-native-roots"] }
+env_logger = { version = "0.11.11" }
+log = { version = "0.4.35" }
