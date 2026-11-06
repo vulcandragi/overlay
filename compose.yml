@@ -1,0 +1,27 @@
+services:
+  core:
+    build:
+      context: .
+      dockerfile: ./core/Dockerfile
+    ports:
+      - 0.0.0.0:50051:50051
+    restart: always
+  twitch:
+    build:
+      context: .
+      dockerfile: ./twitch/Dockerfile
+    environment:
+      APP_BOT_USERNAME: ${APP_BOT_USERNAME}
+      APP_BOT_TOKEN: ${APP_BOT_TOKEN}
+      APP_CHANNEL_TO_JOIN: ${APP_CHANNEL_TO_JOIN}
+      APP_GATEWAY_URL: "http://core:50051"
+    restart: always
+  chat:
+    build:
+      context: .
+      dockerfile: ./chat/Dockerfile
+      args:
+        APP_CORE_URL: "http://localhost:50051"
+    ports:
+      - 0.0.0.0:8080:80
+    restart: always

@@ -1,5 +1,6 @@
-pub mod components;
-pub mod services;
+mod components;
+mod config;
+mod services;
 
 use yew::{Html, Renderer, component, html};
 

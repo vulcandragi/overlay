@@ -2,16 +2,14 @@ syntax = "proto3";
 package core;
 import "google/protobuf/empty.proto";
 
-message MessageRequest {
-  string content = 1;
-}
-
-message MessageResponse {
-  string content = 1;
-  int64 timestamp = 2;
+message Message {
+  string message_id = 1;
+  string content = 2;
+  string name = 3;
+  string name_color = 4;
 }
 
 service MessageService {
-    rpc Send(MessageRequest) returns (google.protobuf.Empty);
-    rpc Listen(google.protobuf.Empty) returns (stream MessageResponse);
+    rpc Send(Message) returns (google.protobuf.Empty);
+    rpc Listen(google.protobuf.Empty) returns (stream Message);
 }

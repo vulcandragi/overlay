@@ -1,3 +1,6 @@
-*/**/env.toml
 /target
+.env
+
+*/**/env.toml
 */**/dist
+*/**/.env

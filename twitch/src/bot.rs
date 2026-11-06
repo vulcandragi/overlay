@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use anyhow::Result;
 use log::{error, info, warn};
-use proto::MessageRequest;
+use proto::Message;
 use tokio::{sync::mpsc::UnboundedReceiver, task::JoinHandle};
 use tonic::Request;
 use twitch_irc::{
@@ -28,8 +28,6 @@ impl Bot {
             Some(config.bot_token.to_owned()),
         );
 
-        info!("{:?}", config);
-
         let client_config = ClientConfig::new_simple(login_credentials);
         let (channel_message, client) = TwitchClient::new(client_config);
 
@@ -51,18 +49,28 @@ impl Bot {
                     continue;
                 };
 
-                self.client
-                    .say(message.channel_login, "test".to_owned())
-                    .await
-                    .unwrap();
+                if message.sender.name == "StreamElements" {
+                    continue;
+                }
 
                 info!("Mensagem recebida do chat: {}", message.message_text);
+
+                if message.message_text.starts_with("!ping") {
+                    self.client
+                        .say(message.channel_login, "pong".to_string())
+                        .await
+                        .unwrap();
+                    continue;
+                }
 
                 let response = self
                     .gateway
                     .message_service
-                    .send(Request::new(MessageRequest {
+                    .send(Request::new(Message {
+                        message_id: message.message_id.to_string(),
                         content: message.message_text,
+                        name: message.sender.name.to_string(),
+                        name_color: message.name_color.unwrap().to_string(),
                     }))
                     .await;
 
